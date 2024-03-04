@@ -72,14 +72,14 @@
   </dependencies>
   
   <modules>
-    <module>accumulo</module>
+<!--    <module>accumulo</module>-->
     <module>cassandra</module>
-    <module>file</module> 
+<!--    <module>file</module> -->
     <module>google</module>
     <module>ldap</module>
     <module>jdbc</module>
     <module>mongodb</module>
-    <module>couchbase</module>
+<!--    <module>couchbase</module>-->
     <module>amazon</module>
     <module>webservice</module>
     <module>salesforce</module>
