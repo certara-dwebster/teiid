@@ -81,10 +81,10 @@
             <param name="translator" value="oracle"/>
             <param name="module" value="org.jboss.teiid.translator.jdbc"/>
         </feature>
-        <feature spec="subsystem.teiid.translator">
-            <param name="translator" value="parquet"/>
-            <param name="module" value="org.jboss.teiid.translator.parquet"/>
-        </feature>
+<!--        <feature spec="subsystem.teiid.translator">-->
+<!--            <param name="translator" value="parquet"/>-->
+<!--            <param name="module" value="org.jboss.teiid.translator.parquet"/>-->
+<!--        </feature>-->
         <feature spec="subsystem.teiid.translator">
             <param name="translator" value="postgresql"/>
             <param name="module" value="org.jboss.teiid.translator.jdbc"/>
@@ -137,10 +137,10 @@
             <param name="translator" value="netezza"/>
             <param name="module" value="org.jboss.teiid.translator.jdbc"/>
         </feature>
-        <feature spec="subsystem.teiid.translator">
-            <param name="translator" value="file"/>
-            <param name="module" value="org.jboss.teiid.translator.file"/>
-        </feature>
+<!--        <feature spec="subsystem.teiid.translator">-->
+<!--            <param name="translator" value="file"/>-->
+<!--            <param name="module" value="org.jboss.teiid.translator.file"/>-->
+<!--        </feature>-->
         <feature spec="subsystem.teiid.translator">
             <param name="translator" value="google-spreadsheet"/>
             <param name="module" value="org.jboss.teiid.translator.google"/>
@@ -197,10 +197,10 @@
             <param name="translator" value="mongodb"/>
             <param name="module" value="org.jboss.teiid.translator.mongodb"/>
         </feature>
-        <feature spec="subsystem.teiid.translator">
-            <param name="translator" value="couchbase"/>
-            <param name="module" value="org.jboss.teiid.translator.couchbase"/>
-        </feature>
+<!--        <feature spec="subsystem.teiid.translator">-->
+<!--            <param name="translator" value="couchbase"/>-->
+<!--            <param name="module" value="org.jboss.teiid.translator.couchbase"/>-->
+<!--        </feature>-->
         <feature spec="subsystem.teiid.translator">
             <param name="translator" value="cassandra"/>
             <param name="module" value="org.jboss.teiid.translator.cassandra"/>
@@ -209,10 +209,10 @@
             <param name="translator" value="simpledb"/>
             <param name="module" value="org.jboss.teiid.translator.simpledb"/>
         </feature>
-        <feature spec="subsystem.teiid.translator">
-            <param name="translator" value="accumulo"/>
-            <param name="module" value="org.jboss.teiid.translator.accumulo"/>
-        </feature>
+<!--        <feature spec="subsystem.teiid.translator">-->
+<!--            <param name="translator" value="accumulo"/>-->
+<!--            <param name="module" value="org.jboss.teiid.translator.accumulo"/>-->
+<!--        </feature>-->
         <feature spec="subsystem.teiid.translator">
             <param name="translator" value="solr"/>
             <param name="module" value="org.jboss.teiid.translator.solr"/>
