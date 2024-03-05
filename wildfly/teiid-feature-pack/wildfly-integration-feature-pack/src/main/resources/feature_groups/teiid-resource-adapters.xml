@@ -5,18 +5,18 @@
 <!--            <param name="resource-adapter" value="file"/>-->
 <!--            <param name="module" value="org.jboss.teiid.resource-adapter.file"/>-->
 <!--        </feature>-->
-        <feature spec="subsystem.resource-adapters.resource-adapter">
-            <param name="resource-adapter" value="ftp"/>
-            <param name="module" value="org.jboss.teiid.resource-adapter.ftp"/>
-        </feature>
+<!--        <feature spec="subsystem.resource-adapters.resource-adapter">-->
+<!--            <param name="resource-adapter" value="ftp"/>-->
+<!--            <param name="module" value="org.jboss.teiid.resource-adapter.ftp"/>-->
+<!--        </feature>-->
 <!--        <feature spec="subsystem.resource-adapters.resource-adapter">-->
 <!--            <param name="resource-adapter" value="hdfs"/>-->
 <!--            <param name="module" value="org.jboss.teiid.resource-adapter.hdfs"/>-->
 <!--        </feature>-->
-        <feature spec="subsystem.resource-adapters.resource-adapter">
-            <param name="resource-adapter" value="s3"/>
-            <param name="module" value="org.jboss.teiid.resource-adapter.s3"/>
-        </feature>
+<!--        <feature spec="subsystem.resource-adapters.resource-adapter">-->
+<!--            <param name="resource-adapter" value="s3"/>-->
+<!--            <param name="module" value="org.jboss.teiid.resource-adapter.s3"/>-->
+<!--        </feature>-->
         <feature spec="subsystem.resource-adapters.resource-adapter">
             <param name="resource-adapter" value="google"/>
             <param name="module" value="org.jboss.teiid.resource-adapter.google"/>
