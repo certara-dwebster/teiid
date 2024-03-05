@@ -217,10 +217,10 @@
             <param name="translator" value="solr"/>
             <param name="module" value="org.jboss.teiid.translator.solr"/>
         </feature>
-        <feature spec="subsystem.teiid.translator">
-            <param name="translator" value="excel"/>
-            <param name="module" value="org.jboss.teiid.translator.excel"/>
-        </feature>
+<!--        <feature spec="subsystem.teiid.translator">-->
+<!--            <param name="translator" value="excel"/>-->
+<!--            <param name="module" value="org.jboss.teiid.translator.excel"/>-->
+<!--        </feature>-->
         <feature spec="subsystem.teiid.translator">
             <param name="translator" value="impala"/>
             <param name="module" value="org.jboss.teiid.translator.hive"/>
