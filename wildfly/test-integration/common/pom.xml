@@ -152,11 +152,11 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
+        <!--dependency>
             <groupId>org.teiid.wildfly.connectors</groupId>
             <artifactId>connector-file</artifactId>
             <scope>test</scope>
-        </dependency>
+        </dependency-->
         
         <dependency>
             <groupId>org.apache.hadoop</groupId>
