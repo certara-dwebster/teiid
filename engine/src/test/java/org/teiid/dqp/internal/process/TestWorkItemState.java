@@ -31,7 +31,7 @@ public class TestWorkItemState {
         private boolean callMoreWork;
         private boolean resumed;
 
-        private TestWorkItem() {
+        TestWorkItem() {
             this(false, false);
         }
 

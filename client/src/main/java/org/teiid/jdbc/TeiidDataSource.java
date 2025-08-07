@@ -44,7 +44,8 @@ import org.teiid.net.TeiidURL;
  * return {@link javax.sql.XAConnection} instances that can be used with distributed transactions.
  * <p>
  * The following are the properties for this DataSource:
- * <table summary="properties">
+ * <table>
+ * <caption>DataSource Properties</caption>
  *   <tr><td><b>Property Name</b></td><td><b>Type</b></td><td><b>Description</b></td></tr>
  *   <tr><td>portNumber       </td><td><code>int   </code></td><td>The port number where a Teiid Server is listening
  *                                                                 for requests.</td></tr>
@@ -571,4 +572,3 @@ public class TeiidDataSource extends BaseDataSource {
     }
 
 }
-

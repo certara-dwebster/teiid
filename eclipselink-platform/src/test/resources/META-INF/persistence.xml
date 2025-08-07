@@ -10,10 +10,10 @@
       <class>org.teiid.eclipselink.platform.model.Marketdata</class>
       
       <properties>
-      <property name="javax.persistence.jdbc.driver" value="org.teiid.jdbc.TeiidDriver" />
-      <property name="javax.persistence.jdbc.url" value="jdbc:teiid:Marketdata" />
-      <property name="javax.persistence.jdbc.user" value="" />
-      <property name="javax.persistence.jdbc.password" value="" />
+      <property name="jakarta.persistence.jdbc.driver" value="org.teiid.jdbc.TeiidDriver" />
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:teiid:Marketdata" />
+      <property name="jakarta.persistence.jdbc.user" value="" />
+      <property name="jakarta.persistence.jdbc.password" value="" />
 
       <!-- EclipseLink should create the database schema automatically -->
       <property name="eclipselink.ddl-generation" value="create-tables" />

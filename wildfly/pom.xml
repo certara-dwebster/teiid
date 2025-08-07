@@ -40,7 +40,15 @@
 
         <version.jakarta.xml.bind.api>4.0.2</version.jakarta.xml.bind.api>
         <version.javax.ws.rs>3.1.0</version.javax.ws.rs>
-        <version.io.swagger>1.5.22</version.io.swagger>
+        <version.io.swagger>2.2.21</version.io.swagger>
+        <version.io.swagger-parser.v3>2.1.22</version.io.swagger-parser.v3>
+
+
+        <version.xerces>2.12.2</version.xerces>
+        <version.org.apache.cxf-rt-rs-security-oauth>3.4.10</version.org.apache.cxf-rt-rs-security-oauth>
+
+        <version.olap4j>1.1.0</version.olap4j>
+        <version.olap4j-xmla>1.1.0</version.olap4j-xmla>
   </properties>
 
     <!-- copied from the teiid-parent when things separate-->
@@ -352,7 +360,12 @@
             <dependency>
                 <groupId>xerces</groupId>
                 <artifactId>xercesImpl</artifactId>
-                <version>2.12.2</version>
+                <version>${version.xerces}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-rs-security-oauth</artifactId>
+                <version>${version.org.apache.cxf-rt-rs-security-oauth}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -427,6 +440,17 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.olap4j</groupId>
+            <artifactId>olap4j</artifactId>
+            <version>${version.olap4j}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.olap4j</groupId>
+            <artifactId>olap4j-xmla</artifactId>
+            <version>${version.olap4j-xmla}</version>
         </dependency>
 
     </dependencies>

@@ -11,13 +11,12 @@
     <description>This translator provides access to any JPA based entities</description>
     
     <properties>
-       <!-- 1. We declare some transitive dependencies that are needed in the wildfly module.  It also complains both ways
+       <!-- We declare some transitive dependencies that are needed in the wildfly module.  It also complains both ways
                about javax.persistence
-            
-            2. There are a lot of duplicates/conflicts with javax.persistence - there are three versions in play.
        -->
-       <basepom.check.fail-dependency>false</basepom.check.fail-dependency>
+       <!-- <basepom.check.fail-dependency>false</basepom.check.fail-dependency> -->
 
+       <!-- There are a lot of duplicates/conflicts with javax.persistence - there are three versions in play. -->
        <basepom.check.skip-duplicate-finder>true</basepom.check.skip-duplicate-finder>
     </properties>
     
@@ -41,17 +40,13 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.1-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.xml.bind</groupId>
-            <artifactId>jakarta.xml.bind-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>

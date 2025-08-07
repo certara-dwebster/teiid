@@ -2922,7 +2922,7 @@ public class TestEmbeddedServer {
         Statement stmt = connection.createStatement();
         stmt.execute("set autoCommitTxn off");
         boolean killed = false;
-        for (int i = 0; i < 64; i++) {
+        for (int i = 0; i < 256; i++) {
             try {
                 stmt.execute("insert into #temp select * from sys.columns limit 400");
             } catch (SQLException e) {

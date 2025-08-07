@@ -192,7 +192,7 @@ public class TestProjectIntoNode {
         private int currentRow = 0;
         private boolean block = true;
         private int rows;
-        private FakeDataTupleSource(int rows) {
+        FakeDataTupleSource(int rows) {
             this.rows = rows;
         }
         public void closeSource() {}

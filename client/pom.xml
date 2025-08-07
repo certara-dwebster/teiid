@@ -23,7 +23,7 @@
     sessioning and transport level messaging.</description>
     
     <properties>
-        <project.build.targetJdk>8</project.build.targetJdk>
+        <project.build.targetJdk>17</project.build.targetJdk>
     </properties>
     
     <dependencies>
@@ -48,7 +48,31 @@
 		</dependency>
 		<dependency>
 			<groupId>io.opentelemetry</groupId>
-			<artifactId>opentelemetry-sdk-extension-autoconfigure</artifactId>
+			<artifactId>opentelemetry-sdk</artifactId>
+			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-sdk-extension-autoconfigure</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-context</artifactId>
+		</dependency>		
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<configuration>
+					<ignoredDependencies>
+						<ignoredDependency>io.opentelemetry:opentelemetry-context</ignoredDependency>
+					</ignoredDependencies>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

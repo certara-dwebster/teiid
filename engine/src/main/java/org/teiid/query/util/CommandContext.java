@@ -27,9 +27,11 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Locale.Category;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
@@ -847,7 +849,17 @@ public class CommandContext implements Cloneable, org.teiid.CommandContext {
         }
     }
 
+    public static Locale getLocale() {
+        // return Locale.getDefault(Category.FORMAT)
+        return Locale.ENGLISH;
+    }
+
+
     public static DecimalFormat getDecimalFormat(CommandContext context, String format) {
+        return getDecimalFormat(context, format, getLocale());
+    }
+
+    public static DecimalFormat getDecimalFormat(CommandContext context, String format, Locale locale) {
         DecimalFormat result = null;
         if (context != null) {
             if (context.globalState.decimalFormatCache == null) {
@@ -857,7 +869,7 @@ public class CommandContext implements Cloneable, org.teiid.CommandContext {
             }
         }
         if (result == null) {
-            result = new DecimalFormat(format); //TODO: could be locale sensitive
+            result = new DecimalFormat(format, DecimalFormatSymbols.getInstance(locale));
             result.setParseBigDecimal(true);
             if (context != null) {
                 context.globalState.decimalFormatCache.put(format, result);
@@ -867,6 +879,10 @@ public class CommandContext implements Cloneable, org.teiid.CommandContext {
     }
 
     public static SimpleDateFormat getDateFormat(CommandContext context, String format) {
+        return getDateFormat(context, format, getLocale());
+    }
+
+    public static SimpleDateFormat getDateFormat(CommandContext context, String format, Locale locale) {
         SimpleDateFormat result = null;
         if (context != null) {
             if (context.globalState.dateFormatCache == null) {
@@ -876,7 +892,7 @@ public class CommandContext implements Cloneable, org.teiid.CommandContext {
             }
         }
         if (result == null) {
-            result = new SimpleDateFormat(format); //TODO: could be locale sensitive
+            result = new SimpleDateFormat(format, locale); //TODO: could be locale sensitive
             if (context != null) {
                 context.globalState.dateFormatCache.put(format, result);
             }

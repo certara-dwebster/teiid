@@ -34,10 +34,10 @@ import org.teiid.core.TeiidComponentException;
 public interface ValueIterator{
 
     /**
-     * Returns <tt>true</tt> if the iteration has more values. (In other
-     * words, returns <tt>true</tt> if <tt>next</tt> would return a value
+     * Returns <code>true</code> if the iteration has more values. (In other
+     * words, returns <code>true</code> if <code>next</code> would return a value
      * rather than throwing an exception.)
-     * @return <tt>true</tt> if this ValueIterator has more values.
+     * @return <code>true</code> if this ValueIterator has more values.
      * @throws TeiidComponentException indicating a non business-
      * related Exception such as a service or bean being unavailable, or
      * a communication failure.

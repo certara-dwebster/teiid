@@ -21,22 +21,43 @@ package org.teiid.jdbc.tracing;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.context.Scope;
+import io.opentelemetry.sdk.autoconfigure.AutoConfiguredOpenTelemetrySdk;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+
 @SuppressWarnings("nls")
 public class TestTracing {
 
-    @Test public void testSpanContextInjection() {
+    @Test
+    public void testSpanContextInjection() {
+
+        GlobalOpenTelemetry.resetForTest();
+        
+        Map<String, String> configProperties = new HashMap<>();
+        configProperties.put("otel.traces.exporter", "none");
+        configProperties.put("otel.metrics.exporter", "none");
+        configProperties.put("otel.logs.exporter", "none");
+        
+        AutoConfiguredOpenTelemetrySdk autoConfiguredSdk = AutoConfiguredOpenTelemetrySdk.builder()
+            .addPropertiesSupplier(() -> configProperties)
+            .setResultAsGlobal()
+            .build();
+        
         Tracer tracer = GlobalOpenTelemetry.getTracer("test");
         assertNull(GlobalTracerInjector.getSpanContext(tracer));
-        Span ignored = tracer.spanBuilder("x").startSpan();
-        try {
-            assertEquals("{\"spanid\":\"2\",\"traceid\":\"1\"}", GlobalTracerInjector.getSpanContext(tracer));
+        Span span = tracer.spanBuilder("x").startSpan();
+        try (Scope scope = span.makeCurrent()) {
+            assertEquals("{\"spanid\":\"" + span.getSpanContext().getSpanId() + "\",\"traceid\":\"" + span.getSpanContext().getTraceId() + "\"}", GlobalTracerInjector.getSpanContext(tracer));
         } finally {
-            ignored.end();
+            span.end();
+            autoConfiguredSdk.getOpenTelemetrySdk().close();
         }
     }
 

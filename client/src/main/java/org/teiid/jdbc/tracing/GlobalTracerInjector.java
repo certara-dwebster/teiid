@@ -20,7 +20,9 @@ package org.teiid.jdbc.tracing;
 
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.SpanContext;
 import io.opentelemetry.api.trace.Tracer;
+
 import org.teiid.jdbc.tracing.TracingHelper.Injector;
 
 import java.util.HashMap;
@@ -32,7 +34,7 @@ import java.util.Map;
  */
 public class GlobalTracerInjector implements Injector {
 
-    private static Tracer TRACER = GlobalOpenTelemetry.getTracer("org.teiid.jdbc.tracing");
+    static Tracer TRACER = GlobalOpenTelemetry.getTracer("org.teiid.jdbc.tracing");
 
     @Override
     public String getSpanContext() {
@@ -44,8 +46,15 @@ public class GlobalTracerInjector implements Injector {
         if (span == null) {
             return null;
         }
-        Map<String,String> spanMap = new HashMap<String, String>();
-//        AutoConfiguredOpenTelemetrySdk.initialize().getOpenTelemetrySdk().getPropagators().getTextMapPropagator().inject(Context.current(), Builtin.TEXT_MAP, new TextMapInjectAdapter(spanMap));
+        SpanContext context = span.getSpanContext();
+
+        if (!context.isValid()) {
+            return null;
+        }
+
+        Map<String, String> spanMap = new HashMap<>();
+        spanMap.put("spanid", context.getSpanId());
+        spanMap.put("traceid", context.getTraceId());
 
         //simple json creation
         StringBuilder json = new StringBuilder();
@@ -65,16 +74,13 @@ public class GlobalTracerInjector implements Injector {
         return json.toString();
     }
 
-    /*
-     * Used to workaround that the GlobalTracer can only be registered once.
-     */
 
     public static Tracer getTracer() {
-        return TRACER;
+         return TRACER;
     }
 
     public static void setTracer(Tracer tracer) {
-        TRACER = tracer;
+         TRACER = tracer;
     }
 
 }

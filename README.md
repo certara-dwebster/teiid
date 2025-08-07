@@ -15,18 +15,22 @@ Teiid is a data virtualization system that allows applications to use data from 
 - Wiki - https://community.jboss.org/wiki/TheTeiidProject
 
 ## To build Teiid
-- Note that the Jakarta EE versions of the OREVA (https://github.com/certara-dwebster/oreva) and the Olingo-OData4 (https://github.com/certara-dwebster/olingo-odata4) projects will need to be built before this project is built.
+- Note that the Jakarta EE versions of the OREVA (https://github.com/thiagotognoli/teiid-oreva) and the Olingo-OData4 (https://github.com/thiagotognoli/olingo-odata4) projects will need to be built before this project is built.
+- Clone and build https://github.com/certara-dwebster/oreva
 - install JDK 1.9 or higher
 - install maven 3.2+ - http://maven.apache.org/download.html
 - Create a github account and fork Teiid
 
 Enter the following:
+```bash
+mkdir -p teiid && cd teiid
+git clone --branch certara-oreva-0.9.0 --single-branch https://github.com/thiagotognoli/teiid-oreva oreva && cd oreva && mvn clean install -P release && cd ..
+git clone --branch 5.0.2 --single-branch https://github.com/thiagotognoli/olingo-odata4.git && cd olingo-odata4 && mvn clean install && cd ..
+git clone https://github.com/certara-dwebster/teiid.git && cd teiid && mvn clean install -s settings.xml
+```
 
-	$ git clone https://github.com/<yourname>/teiid.git
-	$ cd teiid
-	$ mvn clean install -P dev -s settings.xml
-	
 you can find the deployment artifacts in the "teiid/build/target" directory once the build is completed.
+
 
 ## Travis Builds
 

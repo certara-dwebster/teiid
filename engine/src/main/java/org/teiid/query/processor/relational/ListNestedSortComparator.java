@@ -31,7 +31,7 @@ import org.teiid.translator.ExecutionFactory.NullOrder;
  *
  * Typically, the lists are records in a collection that is to be sorted. <p>
  *
- * <h3>Example</h3>
+ * <h2>Example</h2>
  * <pre>
  *    Records...
  *      { "a1", "b1", "c1" }

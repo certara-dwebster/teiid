@@ -20,9 +20,9 @@ package org.teiid.translator.jpa.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Marketdata implements Serializable {

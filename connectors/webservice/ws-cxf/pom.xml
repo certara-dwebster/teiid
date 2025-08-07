@@ -67,30 +67,6 @@
         <dependency>
             <groupId>org.apache.wss4j</groupId>
             <artifactId>wss4j-ws-security-common</artifactId>
-            <version>2.4.1</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>geronimo-javamail_1.4_mail</artifactId>
-                    <groupId>org.apache.geronimo.javamail</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>opensaml</artifactId>
-                    <groupId>org.opensaml</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jaxws-api</artifactId>
-                    <groupId>javax.xml.ws</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jakarta.xml.bind-api</artifactId>
-                    <groupId>jakarta.xml.bind</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.wss4j</groupId>
@@ -149,10 +125,6 @@
             <groupId>net.oauth.core</groupId>
             <artifactId>oauth</artifactId>
             <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-rs-security-oauth</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>

@@ -22,8 +22,8 @@
 		</dependency>
 		
 		<dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>jakarta.persistence</artifactId>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
             <scope>runtime</scope>
         </dependency>
         
