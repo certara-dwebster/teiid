@@ -3,7 +3,7 @@
     <parent>        
         <groupId>org.teiid.connectors</groupId>
         <artifactId>google</artifactId>
-        <version>17.0.14</version>
+        <version>17.0.15</version>
     </parent>
 	<artifactId>google-api</artifactId>
 	<name>Gogole API</name>
