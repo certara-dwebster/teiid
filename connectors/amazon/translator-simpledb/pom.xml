@@ -4,7 +4,7 @@
 	<parent>		
 	<groupId>org.teiid.connectors</groupId>
 	<artifactId>amazon</artifactId>
-        <version>17.0.14</version>
+        <version>17.0.15</version>
 	</parent>
 	<artifactId>translator-simpledb</artifactId>
 	<name>Amazon SimpleDB Translator</name>

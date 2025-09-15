@@ -12,7 +12,7 @@
     <packaging>pom</packaging>
     <name>Teiid</name>
 
-    <version>17.0.14</version>
+    <version>17.0.15</version>
     <description>Federated SQL and XML query engine.</description>
     <properties>
         <site.url>http://teiid.io</site.url>
@@ -133,7 +133,7 @@
 
 
         <!-- Infinispan Translator -->
-        <version.org.infinispan>15.2.4.Final</version.org.infinispan>
+        <version.org.infinispan>15.2.5.Final</version.org.infinispan>
         <version.protostream>5.0.10.Final</version.protostream>
         <version.square.protoparser>4.0.3</version.square.protoparser>
 

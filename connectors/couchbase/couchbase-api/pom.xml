@@ -3,7 +3,7 @@
     <parent>
       <groupId>org.teiid.connectors</groupId>
       <artifactId>couchbase</artifactId>
-      <version>17.0.14</version>
+      <version>17.0.15</version>
     </parent>
     <artifactId>couchbase-api</artifactId>
     <name>Couchbase API</name>
