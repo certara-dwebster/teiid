@@ -12,7 +12,7 @@
     <packaging>pom</packaging>
     <name>Teiid</name>
 
-    <version>17.0.15</version>
+    <version>17.0.16</version>
     <description>Federated SQL and XML query engine.</description>
     <properties>
         <site.url>http://teiid.io</site.url>
@@ -133,7 +133,7 @@
 
 
         <!-- Infinispan Translator -->
-        <version.org.infinispan>15.2.5.Final</version.org.infinispan>
+        <version.org.infinispan>15.2.6.Final</version.org.infinispan>
         <version.protostream>5.0.10.Final</version.protostream>
         <version.square.protoparser>4.0.3</version.square.protoparser>
 
@@ -142,9 +142,9 @@
         <version.org.arrahtec>6.2.6</version.org.arrahtec>
 
         <!-- OpenTelemetry -->
-        <version.io.opentelemetry>1.42.1</version.io.opentelemetry>
+        <version.io.opentelemetry>1.48.0</version.io.opentelemetry>
         <version.io.opentelemetry.autoconfigure>1.20.0-alpha</version.io.opentelemetry.autoconfigure>
-        <version.io.opentelemetry.semconv>1.25.0-alpha</version.io.opentelemetry.semconv>
+        <version.io.opentelemetry.semconv>1.30.1-alpha</version.io.opentelemetry.semconv>
 
         <version.xerces>2.12.0</version.xerces>
         <version.org.slf4j>1.7.30</version.org.slf4j>

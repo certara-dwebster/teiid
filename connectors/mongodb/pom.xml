@@ -4,7 +4,7 @@
   <parent>
       <groupId>org.teiid</groupId>
       <artifactId>connectors</artifactId>
-      <version>17.0.15</version>
+      <version>17.0.16</version>
   </parent>
   <groupId>org.teiid.connectors</groupId>
   <artifactId>mongodb</artifactId>
