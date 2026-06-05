@@ -81,7 +81,9 @@ public class InfinispanConnectionFactory implements Closeable {
             });
 
             if (transactionMode != null) {
-                builder.transaction()
+                // Infinispan 16: transaction() removed from ConfigurationBuilder;
+                // transactions are now configured per-cache via remoteCache()
+                builder.remoteCache("")
                     .transactionMode(transactionMode)
                     .transactionManagerLookup(transactionManagerLookup);
             }

@@ -41,7 +41,11 @@ public class HotRodTestServer {
         gc.defaultCacheName("default");
 
         GlobalConfiguration config = gc.build();
-        this.defaultCacheManager = new DefaultCacheManager(config, c.build(config));
+        // Infinispan 16: DefaultCacheManager(GlobalConfiguration, Configuration) removed;
+        // default cache config must be defined separately before start
+        this.defaultCacheManager = new DefaultCacheManager(config, false);
+        this.defaultCacheManager.defineConfiguration("default", c.build());
+        this.defaultCacheManager.start();
         this.defaultCacheManager.defineConfiguration("bar", getConfigurationBuilder().build());
 
         this.defaultCacheManager.defineConfiguration("foo", getConfigurationBuilder().build());

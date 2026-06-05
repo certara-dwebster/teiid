@@ -6,8 +6,6 @@
 
     <resources>
         <artifact name="${org.infinispan:infinispan-client-hotrod}"/>
-        <artifact name="${org.infinispan:infinispan-remote-query-client}"/>
-        <artifact name="${org.infinispan:infinispan-query-dsl}"/>
     </resources>
 
     <dependencies>

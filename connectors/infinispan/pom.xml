@@ -23,14 +23,6 @@
 			</dependency>
 			
 			<dependency>
-                <groupId>org.infinispan.protostream</groupId>
-                <artifactId>parent</artifactId>
-                <version>${version.protostream}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-			
-			<dependency>
 	            <groupId>org.infinispan</groupId>
 	            <artifactId>infinispan-core</artifactId>
 	            <version>${version.org.infinispan}</version>
