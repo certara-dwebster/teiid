@@ -17,6 +17,7 @@
  */
 package org.teiid.infinispan.api;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,7 +26,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.infinispan.protostream.*;
-import org.infinispan.protostream.impl.ByteArrayOutputStreamEx;
 import org.infinispan.protostream.impl.TagWriterImpl;
 import org.teiid.translator.document.Document;
 
@@ -75,14 +75,14 @@ public class TeiidTableMarshaller implements ProtobufTagMarshaller<InfinispanDoc
                 List<? extends Document> children = document.getChildDocuments(twf.getAttributeName());
                 if (children != null) {
                     for (Document d : children) {
-                        ByteArrayOutputStreamEx baos = new ByteArrayOutputStreamEx();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
                         TagWriter rpsw = TagWriterImpl.newInstance(ProtobufUtil.newSerializationContext(), baos);
                         writeTo(ctx, rpsw, (InfinispanDocument)d);
                         rpsw.flush();
                         baos.flush();
                         // here readtag because this is inner object, even other one uses write tag but calculated
                         // based on the write operation used.
-                        out.writeBytes(tag, baos.getByteBuffer());
+                        out.writeBytes(tag, baos.toByteArray());
                     }
                 }
                 continue;

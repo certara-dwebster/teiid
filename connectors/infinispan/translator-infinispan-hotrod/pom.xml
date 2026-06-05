@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.teiid.connectors</groupId>
 		<artifactId>infinispan</artifactId>
-		<version>17.0.19</version>
+		<version>17.0.20</version>
 	</parent>
 	<artifactId>translator-infinispan-hotrod</artifactId>
 	<name>Infinispan Protobuf Translator</name>
@@ -46,7 +46,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.infinispan</groupId>
-			<artifactId>infinispan-query-dsl</artifactId>
+			<artifactId>infinispan-query</artifactId>
 		</dependency>
 		<dependency>
             <groupId>org.infinispan.protostream</groupId>
