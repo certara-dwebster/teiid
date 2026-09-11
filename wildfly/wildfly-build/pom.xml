@@ -91,16 +91,16 @@
                                     <artifactId>olingo-feature-pack</artifactId>
                                     <version>${project.version}</version>
                                 </feature-pack>
-                                <feature-pack>
-                                    <groupId>org.teiid.wildfly.connectors</groupId>
-                                    <artifactId>feature-pack-accumulo</artifactId>
-                                    <version>${project.version}</version>
-                                </feature-pack>
-                                <feature-pack>
-                                    <groupId>org.teiid.wildfly.connectors</groupId>
-                                    <artifactId>feature-pack-file</artifactId>
-                                    <version>${project.version}</version>
-                                </feature-pack>
+<!--                                <feature-pack>-->
+<!--                                    <groupId>org.teiid.wildfly.connectors</groupId>-->
+<!--                                    <artifactId>feature-pack-accumulo</artifactId>-->
+<!--                                    <version>${project.version}</version>-->
+<!--                                </feature-pack>-->
+<!--                                <feature-pack>-->
+<!--                                    <groupId>org.teiid.wildfly.connectors</groupId>-->
+<!--                                    <artifactId>feature-pack-file</artifactId>-->
+<!--                                    <version>${project.version}</version>-->
+<!--                                </feature-pack>-->
                                 <feature-pack>
                                     <groupId>org.teiid.wildfly.connectors</groupId>
                                     <artifactId>feature-pack-odata</artifactId>
@@ -121,11 +121,11 @@
                                     <artifactId>feature-pack-cassandra</artifactId>
                                     <version>${project.version}</version>
                                 </feature-pack>
-                                <feature-pack>
-                                    <groupId>org.teiid.wildfly.connectors</groupId>
-                                    <artifactId>feature-pack-couchbase</artifactId>
-                                    <version>${project.version}</version>
-                                </feature-pack>
+<!--                                <feature-pack>-->
+<!--                                    <groupId>org.teiid.wildfly.connectors</groupId>-->
+<!--                                    <artifactId>feature-pack-couchbase</artifactId>-->
+<!--                                    <version>${project.version}</version>-->
+<!--                                </feature-pack>-->
                                 <feature-pack>
                                     <groupId>org.teiid.wildfly.connectors</groupId>
                                     <artifactId>feature-pack-google</artifactId>
