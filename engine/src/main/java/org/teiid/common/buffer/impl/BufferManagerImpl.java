@@ -1012,16 +1012,18 @@ public class BufferManagerImpl implements BufferManager, ReplicatedObject<String
                 }
             }
             if (ageOut) {
-                long lastAccess = ce.getKey().getLastAccess();
-                long currentTime = readAttempts.get();
-                long age = currentTime - lastAccess;
-                if (age < MAX_READ_AGE) {
-                    ageOut = false;
-                    continue;
+                synchronized (ce) {
+                    long lastAccess = ce.getKey().getLastAccess();
+                    long currentTime = readAttempts.get();
+                    long age = currentTime - lastAccess;
+                    if (age < MAX_READ_AGE) {
+                        ageOut = false;
+                        continue;
+                    }
+                    queue.remove(ce);
                 }
-                queue.remove(ce);
             }
-            boolean evicted = true;
+            boolean evicted = false;
             try {
                 evicted = evict(ce);
             } catch (Throwable e) {

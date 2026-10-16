@@ -19,13 +19,21 @@
 package org.teiid.common.buffer.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.TimerTask;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.junit.Test;
 import org.teiid.adminapi.impl.SessionMetadata;
@@ -33,6 +41,8 @@ import org.teiid.common.buffer.BufferManager;
 import org.teiid.common.buffer.BufferManager.BufferReserveMode;
 import org.teiid.common.buffer.BufferManager.TupleSourceType;
 import org.teiid.common.buffer.BufferManagerFactory;
+import org.teiid.common.buffer.CacheEntry;
+import org.teiid.common.buffer.CacheKey;
 import org.teiid.common.buffer.FileStore;
 import org.teiid.common.buffer.TupleBuffer;
 import org.teiid.common.buffer.impl.BufferManagerImpl.BatchManagerImpl;
@@ -187,6 +197,152 @@ public class TestBufferManagerImpl {
         elements.addAll(Collections.nCopies(375, b));
         //extreme
         assertEquals(processorBatchSize/8, bm.getProcessorBatchSize(elements));
+    }
+
+    /**
+     * DTS-89949: doEvictions' age-out branch used to read the entry's last-access time and
+     * remove it from the eviction queue outside of synchronized(ce), racing with the
+     * synchronized touch() done by a concurrent fastGet(retain=true). A touch that lands in
+     * that window re-adds the entry under a new key, and the unsynchronized removal can then
+     * read that new key and undo the touch's protection - leaving the entry in memoryEntries
+     * with no corresponding entry in either eviction queue, an "orphan" that can never be
+     * evicted again (the symptom logged as "Detected an unexpected number of orphaned heap
+     * cache memory entries").
+     *
+     * This test forces that exact interleaving deterministically: it intercepts the age-out
+     * branch's queue.remove(ce) call right before it reads the entry's key, lets a concurrent
+     * "touch" run to completion, and only then lets the removal proceed. On unpatched code the
+     * touch's re-add is visible to - and undone by - the unsynchronized removal, producing an
+     * orphan. The fix's synchronized(ce) block instead forces the touch to wait until the
+     * removal (and the key read inside it) has completed, so no entry is lost.
+     */
+    @Test(timeout = 20000) public void testConcurrentAgeOutEvictionRace() throws Exception {
+        final BufferManagerImpl bufferManager = new BufferManagerImpl() {
+            @Override
+            boolean evict(CacheEntry ce) throws Exception {
+                //simulate a concurrent persist that has not completed yet, as can
+                //happen under the disk-pressure/high-concurrency conditions in DTS-89949
+                return false;
+            }
+        };
+        bufferManager.setCache(new MemoryStorageManager());
+        bufferManager.initialize();
+
+        //cancel the periodic background cleaner so it doesn't interfere with this
+        //test's precise thread choreography
+        Field cleanerField = BufferManagerImpl.class.getDeclaredField("cleaner");
+        cleanerField.setAccessible(true);
+        ((TimerTask) cleanerField.get(bufferManager)).cancel();
+
+        Field clockField = BufferManagerImpl.class.getDeclaredField("readAttempts");
+        clockField.setAccessible(true);
+        AtomicLong clock = (AtomicLong) clockField.get(bufferManager);
+
+        //intercepts the age-out branch's queue.remove(ce) call so a concurrent touch can be
+        //forced to run to completion at the exact point the unsynchronized code reads the key
+        class InterceptingEvictionQueue extends LrfuEvictionQueue<CacheEntry> {
+            final CountDownLatch readyToRemove = new CountDownLatch(1);
+            final CountDownLatch proceedWithRemove = new CountDownLatch(1);
+            final AtomicBoolean armed = new AtomicBoolean(true);
+
+            InterceptingEvictionQueue(AtomicLong clock) {
+                super(clock);
+            }
+
+            @Override
+            public boolean remove(CacheEntry value) {
+                if (armed.compareAndSet(true, false)) {
+                    readyToRemove.countDown();
+                    try {
+                        proceedWithRemove.await(10, TimeUnit.SECONDS);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+                return super.remove(value);
+            }
+        }
+        final InterceptingEvictionQueue interceptingQueue = new InterceptingEvictionQueue(clock);
+        bufferManager.evictionQueue = interceptingQueue;
+
+        final CacheEntry ce = new CacheEntry(new CacheKey(0L, 0, 0), 1, new Object(), null, true);
+        bufferManager.memoryEntries.put(ce.getId(), ce);
+        interceptingQueue.add(ce);
+        clock.set(1 << 20); //now older than MAX_READ_AGE (1<<19) relative to its lastAccess of 0
+
+        Thread evictor = new Thread() {
+            public void run() {
+                bufferManager.doEvictions(Long.MAX_VALUE, true, bufferManager.evictionQueue);
+            }
+        };
+        evictor.start();
+
+        assertTrue("evictor did not reach the age-out removal",
+                interceptingQueue.readyToRemove.await(10, TimeUnit.SECONDS));
+
+        //simulates a concurrent read that touches (re-protects) the same entry - exactly the
+        //"someone is actively using this batch" scenario from the ticket
+        Thread toucher = new Thread() {
+            public void run() {
+                bufferManager.fastGet(0L, true, true);
+            }
+        };
+        toucher.start();
+        //should complete quickly, unless the fix's synchronization is blocking it on the
+        //evictor's monitor - either way we let the removal proceed next
+        toucher.join(500);
+
+        interceptingQueue.proceedWithRemove.countDown();
+
+        evictor.join(10000);
+        toucher.join(10000);
+        assertFalse("evictor thread did not finish", evictor.isAlive());
+        assertFalse("toucher thread did not finish", toucher.isAlive());
+
+        assertEquals("Heap cache entry diverged from the eviction queues - an orphaned entry that can never be evicted",
+                bufferManager.memoryEntries.size(),
+                bufferManager.evictionQueue.getSize() + bufferManager.initialEvictionQueue.getSize());
+    }
+
+    /**
+     * DTS-89949: doEvictions() initialized its local "evicted" flag to true and only
+     * reassigned it from evict(ce)'s return value - so if evict() threw (e.g. a disk write
+     * that fails partway through, plausible under the same disk-pressure conditions as the
+     * synchronization race above), the exception was logged but the entry was still treated
+     * as successfully evicted and dropped from memoryEntries, even though nothing was
+     * actually persisted.
+     */
+    @Test public void testEvictionExceptionDoesNotDropEntry() throws Exception {
+        final BufferManagerImpl bufferManager = new BufferManagerImpl() {
+            @Override
+            boolean evict(CacheEntry ce) throws Exception {
+                //simulate a disk write that fails partway through, as can happen under
+                //the disk-pressure conditions in DTS-89949
+                throw new IOException("simulated disk write failure");
+            }
+        };
+        bufferManager.setCache(new MemoryStorageManager());
+        bufferManager.initialize();
+
+        //cancel the periodic background cleaner so it doesn't race with this test
+        Field cleanerField = BufferManagerImpl.class.getDeclaredField("cleaner");
+        cleanerField.setAccessible(true);
+        ((TimerTask) cleanerField.get(bufferManager)).cancel();
+
+        Field clockField = BufferManagerImpl.class.getDeclaredField("readAttempts");
+        clockField.setAccessible(true);
+        AtomicLong clock = (AtomicLong) clockField.get(bufferManager);
+        clock.set(1 << 20); //older than MAX_READ_AGE (1<<19) relative to a lastAccess of 0
+
+        CacheEntry ce = new CacheEntry(new CacheKey(0L, 0, 0), 1, new Object(), null, true);
+        bufferManager.memoryEntries.put(ce.getId(), ce);
+        bufferManager.evictionQueue.add(ce);
+
+        long freed = bufferManager.doEvictions(Long.MAX_VALUE, true, bufferManager.evictionQueue);
+
+        assertEquals("nothing should be reported as freed when the write failed", 0, freed);
+        assertTrue("entry must not be dropped from memoryEntries when evict() throws",
+                bufferManager.memoryEntries.containsKey(0L));
     }
 
     @Test public void testRemovedException() throws TeiidComponentException {
