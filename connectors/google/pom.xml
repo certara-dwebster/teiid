@@ -4,7 +4,7 @@
   <parent>
       <groupId>org.teiid</groupId>
       <artifactId>connectors</artifactId>
-      <version>17.0.23</version>
+      <version>17.0.24</version>
   </parent>
   <groupId>org.teiid.connectors</groupId>
   <artifactId>google</artifactId>
